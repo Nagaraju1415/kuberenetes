@@ -1,0 +1,66 @@
+Kubernetes Setup Using Kubeadm In AWS EC2 Ubuntu Servers 
+
+Prerequisite:
+=============
+
+2 - Ubuntu Serves  > 18.2 version
+
+1 - Master  (4GB RAM , 2 Core) t2.medium
+
+1 - Worker  (4GB RAM , 2 Core) t2.medium
+
+Note: Open Required Ports In AWS Security Groups. For now we will open All trafic.
+
+==========COMMON FOR MASTER & WORKERNODE START ====
+
+Switch to root user
+   
+sudo su
+
+Turn Off Swap Space
+     
+swapoff -a
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+sudo hostnamectl set-hostname "master"
+
+exit
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update
+
+sudo apt-get install -y docker-ce=18.06.1~ce~3-0~ubuntu kubelet=1.15.7-00 kubeadm=1.15.7-00 kubectl=1.15.7-00
+
+sudo apt-mark hold docker-ce kubelet kubeadm kubectl
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+	
+===========In Master ====================
+# Initialize Kubernates master by executing below commond.
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+kubectl get nodes
+
+==========================
+
+Deploy Sample Application
+     kubectl get nodes
+     kubectl run nginx-demo --image=nginx --port=80
+     kubectl get pods
+     kubectl expose pod nginx-demo --port=80 --type=NodePort
+     kubectl get svc		
