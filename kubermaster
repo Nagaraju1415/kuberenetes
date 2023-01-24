@@ -1,0 +1,14 @@
+
+  209  ssh -i "kuber.pem" ubuntu@ec2-44-211-183-103.compute-1.amazonaws.com
+  210  sdo su
+  211  sudo su
+  212  hostname master
+  213  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  214  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  215  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  216  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  217  ls
+  218  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  219  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
+  220  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com~
+  221  ssh -i "kuber.pem" ubuntu@ec2-18-204-21-144.compute-1.amazonaws.com
